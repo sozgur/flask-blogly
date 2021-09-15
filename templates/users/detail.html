@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-3">
+        <img src="{{user.image_url}}" class="rounded float-start" width="200" height="200">
+    </div> 
+    <div class="col-sm-9">
+        <div class="row">
+           <h1>{{user.full_name}}</h1> 
+        </div>
+        <div class="row">
+            <form>
+                <button type="submit" class="btn btn-primary" formmethod="get" formaction="/users/{{user.id}}/edit">Edit</button>             
+                <button type="submit" class="btn btn-danger" formmethod="post" formaction="/users/{{user.id}}/delete">Delete</button>        
+            </form>     
+        </div>
+        
+    </div> 
+
+
+</div>   
+{% endblock %}
