@@ -19,6 +19,8 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     image_url = db.Column(db.Text, nullable=False, default=IMG_URL)
 
+    posts = db.relationship('Post', backref='user', cascade="all, delete-orphan")
+
     @property
     def full_name(self):
         """ Full name of user """
@@ -38,9 +40,6 @@ class Post(db.Model):
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-
-    user = db.relationship('User', backref='posts')
 
     def __repr__(self):
         return f"<Post title: {self.title} content: {self.content} created_at: {self.created_at} user_id: {self.user_id}>"

@@ -3,7 +3,7 @@
 
 <h1>{{post.title}}</h1>
 <p>{{post.content}}</p>
-<p class="font-italic">By {{user.full_name}}</p>
+<p class="font-italic">By {{user.full_name}} <span class="font-weight-light">on {{post.created_at.strftime('%b %d %Y, %I %p')}}</span></p>
 <div class="row">
     <form>
         <a type="button" class="btn btn-outline-primary" href="/users/{{user.id}}">Cancel</a>
