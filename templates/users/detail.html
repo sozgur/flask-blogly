@@ -14,6 +14,15 @@
                 <button type="submit" class="btn btn-danger" formmethod="post" formaction="/users/{{user.id}}/delete">Delete</button>        
             </form>     
         </div>
+
+        <div class="mt-4">
+            <h2>Posts</h2>
+            {% for post in posts %}
+               <li><a href="/posts/{{post.id}}">{{post.title}}</a></li> 
+            {% endfor %}
+
+            <a class="btn btn-primary mt-2" href="/users/{{user.id}}/posts/new" role="button">Add Post</a>
+        </div>   
         
     </div> 
 
