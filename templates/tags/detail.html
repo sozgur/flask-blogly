@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Tag - {{tag.name}}{% endblock %}
+{% block title %}Tag Detail{% endblock %}
 {% block content %}
 
     <div class="row">
@@ -13,7 +13,7 @@
     </div>
 
     <div class="mt-4">
-        <h4>Posts That Related This Tag</h4>
+        <h4>The Posts That Have This Tag</h4>
         {% for post in tag.posts %}
            <li><a href="/posts/{{post.id}}">{{post.title}}</a></li> 
         {% endfor %}

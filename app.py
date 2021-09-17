@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post, Tag
+from models import db, connect_db, User, Post, Tag, PostTag
 
 app = Flask(__name__)
 
@@ -108,8 +108,9 @@ def delete_user(user_id):
 def new_post_form(user_id):
     """Show add new post form for specific user"""
     user = User.query.get_or_404(user_id)
-
-    return render_template("posts/new_form.html", user=user)
+    tags = Tag.query.all()
+    
+    return render_template("posts/new_form.html", user=user, tags = tags)
 
 
 @app.route('/users/<int:user_id>/posts/new', methods=["POST"])
@@ -117,8 +118,11 @@ def add_post(user_id):
     """Add new post in db for specific user"""
     title = request.form["title"]
     content = request.form["content"]
+    tag_id_list = request.form.getlist("tags")
+    tag_ids = [int(tag_id) for tag_id in tag_id_list]
+    tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
 
-    post = Post(title=title, content=content, user_id=user_id)
+    post = Post(title=title, content=content, user_id=user_id, tags=tags)
     db.session.add(post)
     db.session.commit()
 
@@ -137,16 +141,23 @@ def show_post(post_id):
 def edit_post_form(post_id):
     """Show edit post form"""
     post = Post.query.get_or_404(post_id)
+    tags = Tag.query.all()
 
-    return render_template("posts/edit_form.html", post=post)
+    return render_template("posts/edit_form.html", post=post, tags=tags)
 
 
 @app.route('/posts/<int:post_id>/edit', methods=["POST"])
 def edit_post(post_id):
     """Edit post and redirect to post detail page"""
+    tag_id_list = request.form.getlist("tags")
+    tag_ids = [int(tag_id) for tag_id in tag_id_list]
+    tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
+
     post = Post.query.get_or_404(post_id)
     post.title = request.form["title"]
     post.content = request.form["content"]
+    post.tags = tags
+    
 
     db.session.add(post)
     db.session.commit()

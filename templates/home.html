@@ -6,6 +6,15 @@
         <h3>{{post.title}}</h3>
         <p>{{post.content}}</p>
         <p class="font-italic">By {{post.user.full_name}} <span class="font-weight-light">on {{post.created_at.strftime('%b %d %Y, %I %p')}}</span></p>
+
+        {% if post.tags %}
+            <p> <span class="font-weight-bold">Tags:</span>
+            {% for tag in post.tags %}
+                <a href="/tags/{{tag.id}}"><span class="text-white badge rounded-pill bg-primary">{{tag.name}}</span></a>
+            {% endfor %}
+            </p>
+        {% endif %}
+        
     {% endfor %}
     <br>
 
